@@ -1,0 +1,70 @@
+<div class="animate-fade-in-down">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-slate-800">Gerenciamento de Alunos</h1>
+    <button (click)="onAddStudent()" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:-translate-y-0.5 active:scale-95">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      <span>Adicionar Aluno</span>
+    </button>
+  </div>
+
+  @if (students().length > 0) {
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-slate-500">
+          <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">Nome Completo</th>
+              <th scope="col" class="px-6 py-3">WhatsApp</th>
+              <th scope="col" class="px-6 py-3">Login</th>
+              <th scope="col" class="px-6 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (student of students(); track student.id) {
+              <tr class="bg-white border-b hover:bg-slate-50 cursor-pointer" (click)="onEditStudent(student)">
+                <th scope="row" class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">
+                  {{ student.fullName }}
+                </th>
+                <td class="px-6 py-4">
+                  {{ student.whatsapp }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ student.login }}
+                </td>
+                <td class="px-6 py-4">
+                  @if (student.status === 'active') {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Ativo
+                    </span>
+                  } @else {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Inativo
+                    </span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="text-center py-16 px-6 bg-white rounded-lg shadow-md">
+       <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+      <h3 class="mt-2 text-xl font-semibold text-slate-900">Nenhum aluno encontrado</h3>
+      <p class="mt-1 text-sm text-slate-500">Comece adicionando o primeiro perfil de aluno.</p>
+      <div class="mt-6">
+        <button (click)="onAddStudent()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:-translate-y-0.5 active:scale-95">
+           <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Adicionar Aluno
+        </button>
+      </div>
+    </div>
+  }
+</div>

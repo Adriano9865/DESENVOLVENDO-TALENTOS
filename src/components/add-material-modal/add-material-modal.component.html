@@ -1,0 +1,51 @@
+<div class="fixed inset-0 bg-black bg-opacity-60 z-40 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform transition-all animate-scale-in" (click)="$event.stopPropagation()">
+    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+      <h2 class="text-2xl font-bold text-slate-800">Adicionar Novo Material</h2>
+      <button (click)="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form (submit)="$event.preventDefault(); onSubmit()">
+      <div class="p-6 space-y-4">
+        <div>
+          <label for="material-title" class="block text-sm font-medium text-slate-700">Título do Material</label>
+          <input id="material-title" type="text" [value]="title()" (input)="updateTitle($event)" placeholder="ex: Guia de Instalação" required class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="material-type" class="block text-sm font-medium text-slate-700">Tipo de Material</label>
+              <select id="material-type" [value]="type()" (change)="updateType($event)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-slate-100 border border-slate-300 text-slate-900 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+                <option>Link</option>
+                <option>PDF</option>
+                <option>Vídeo</option>
+              </select>
+            </div>
+             <div>
+              <label for="material-course" class="block text-sm font-medium text-slate-700">Curso</label>
+              <select id="material-course" [value]="courseId() || ''" (change)="updateCourseId($event)" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-slate-100 border border-slate-300 text-slate-900 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+                <option value="" disabled>Selecione um curso</option>
+                @for (course of courses(); track course.id) {
+                  <option [value]="course.id">{{ course.title }}</option>
+                }
+              </select>
+            </div>
+        </div>
+        
+        <div>
+          <label for="material-url" class="block text-sm font-medium text-slate-700">URL do Material</label>
+          <input id="material-url" type="text" [value]="url()" (input)="updateUrl($event)" placeholder="https://..." required class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+        </div>
+      </div>
+
+      <div class="p-6 bg-slate-50 rounded-b-2xl flex justify-end gap-3">
+        <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:-translate-y-0.5 active:scale-95">Cancelar</button>
+        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:-translate-y-0.5 active:scale-95">Adicionar Material</button>
+      </div>
+    </form>
+  </div>
+</div>

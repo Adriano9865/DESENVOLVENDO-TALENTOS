@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto space-y-10 animate-fade-in-up">
+  
+  <!-- General Settings Form -->
+  <div class="bg-white p-8 rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold text-slate-800 mb-1">Configurações Gerais</h2>
+    <p class="text-slate-500 mb-6">Atualize as informações principais do seu curso.</p>
+    
+    <form (submit)="$event.preventDefault(); onSaveChanges()" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="course-title" class="block text-sm font-medium text-slate-700">Título do Curso</label>
+          <input id="course-title" type="text" [value]="title()" (input)="updateField('title', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+        </div>
+        <div>
+          <label for="course-instructor" class="block text-sm font-medium text-slate-700">Instrutor</label>
+          <input id="course-instructor" type="text" [value]="instructor()" (input)="updateField('instructor', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+        </div>
+      </div>
+      <div>
+        <label for="course-imageUrl" class="block text-sm font-medium text-slate-700">URL da Imagem</label>
+        <input id="course-imageUrl" type="text" [value]="imageUrl()" (input)="updateField('imageUrl', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+      </div>
+      <div>
+        <label for="course-description" class="block text-sm font-medium text-slate-700">Descrição</label>
+        <textarea id="course-description" rows="5" [value]="description()" (input)="updateField('description', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm"></textarea>
+      </div>
+      <div class="pt-5 border-t border-slate-200 flex justify-end">
+        <button type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:-translate-y-0.5 active:scale-95">
+          Salvar Alterações
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Danger Zone -->
+  <div class="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-red-500">
+    <h2 class="text-2xl font-bold text-slate-800 mb-1">Zona de Perigo</h2>
+    <p class="text-slate-500 mb-6">Estas ações são importantes e podem ter consequências permanentes.</p>
+    <div class="space-y-5">
+      <!-- Status Toggle -->
+      <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+        <div>
+          <h3 class="font-semibold text-slate-800">Status do Curso</h3>
+          <p class="text-sm text-slate-500">Cursos inativos não são visíveis para novos alunos.</p>
+        </div>
+        <button (click)="onToggleStatus()" class="px-4 py-2 text-sm font-medium rounded-lg shadow-sm text-white"
+          [class.bg-yellow-500]="status() === 'active'" [class.hover:bg-yellow-600]="status() === 'active'"
+          [class.bg-green-500]="status() === 'inactive'" [class.hover:bg-green-600]="status() === 'inactive'">
+          @if(status() === 'active') { Mudar para Inativo } @else { Mudar para Ativo }
+        </button>
+      </div>
+      <!-- Delete Course -->
+      <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+        <div>
+          <h3 class="font-semibold text-slate-800">Excluir Curso</h3>
+          <p class="text-sm text-slate-500">Esta ação removerá permanentemente o curso e seu conteúdo.</p>
+        </div>
+        <button (click)="onDeleteCourse()" class="px-4 py-2 text-sm font-medium rounded-lg shadow-sm text-white bg-red-600 hover:bg-red-700">
+          Excluir Curso
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

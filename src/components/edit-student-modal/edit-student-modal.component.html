@@ -1,0 +1,108 @@
+<div class="fixed inset-0 bg-black bg-opacity-60 z-40 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform transition-all animate-scale-in" (click)="$event.stopPropagation()">
+    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+      <h2 class="text-2xl font-bold text-slate-800">Editar Perfil do Aluno</h2>
+      <button (click)="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form (submit)="$event.preventDefault(); onSave()">
+      <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+        <fieldset class="space-y-4">
+          <legend class="text-lg font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4 w-full">Informações Pessoais</legend>
+          <div>
+            <label for="student-name-edit" class="block text-sm font-medium text-slate-700">Nome Completo</label>
+            <input id="student-name-edit" type="text" [value]="fullName()" (input)="updateField('fullName', $event)" required class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+          </div>
+          <div>
+            <label for="student-whatsapp-edit" class="block text-sm font-medium text-slate-700">WhatsApp</label>
+            <input id="student-whatsapp-edit" type="tel" [value]="whatsapp()" (input)="updateField('whatsapp', $event)" required class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+          </div>
+        </fieldset>
+
+        <fieldset class="space-y-4">
+          <legend class="text-lg font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4 w-full">Credenciais de Acesso</legend>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="student-login-edit" class="block text-sm font-medium text-slate-700">Login (4 dígitos)</label>
+              <input id="student-login-edit" type="text" [value]="login()" (input)="updateField('login', $event)" pattern="\d{4}" maxlength="4" required class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm" inputmode="numeric">
+            </div>
+            <div>
+              <label for="student-password-edit" class="block text-sm font-medium text-slate-700">Nova Senha (opcional)</label>
+              <input id="student-password-edit" type="password" [value]="password()" (input)="updateField('password', $event)" maxlength="4" placeholder="••••" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm" inputmode="numeric">
+            </div>
+          </div>
+           <p class="text-xs text-slate-500">Por segurança, a senha atual não é exibida. Digite uma nova senha de 4 dígitos para alterá-la, ou deixe em branco para mantê-la.</p>
+        </fieldset>
+
+        <fieldset class="space-y-4">
+          <legend class="text-lg font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4 w-full">Matrículas nos Cursos</legend>
+          <div class="space-y-2 max-h-48 overflow-y-auto border border-slate-200 rounded-lg p-3 bg-slate-50">
+              @if (enrollableCourses().length > 0) {
+                  @for (course of enrollableCourses(); track course.id) {
+                      <label class="flex items-center p-3 rounded-md hover:bg-white cursor-pointer transition-colors">
+                          <input 
+                              type="checkbox" 
+                              class="h-5 w-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                              [checked]="enrolledCourseIds().has(course.id)"
+                              (change)="toggleEnrollment(course.id)">
+                          <span class="ml-3 font-medium text-slate-700">{{ course.title }}</span>
+                      </label>
+                  }
+              } @else {
+                  <p class="text-center text-slate-500 p-4">Não há cursos disponíveis para matrícula.</p>
+              }
+          </div>
+        </fieldset>
+        
+        <fieldset class="space-y-4">
+          <legend class="text-lg font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4 w-full">Status do Aluno</legend>
+          <div class="flex items-center justify-between p-3 bg-slate-100 rounded-lg">
+            <div>
+              <p class="font-medium text-slate-800">
+                Status Atual: 
+                @if (status() === 'active') {
+                  <span class="font-bold text-green-600">Ativo</span>
+                } @else {
+                  <span class="font-bold text-red-600">Inativo</span>
+                }
+              </p>
+              <p class="text-sm text-slate-500">
+                @if (status() === 'active') {
+                  Alunos ativos podem acessar a plataforma.
+                } @else {
+                  Alunos inativos não podem fazer login.
+                }
+              </p>
+            </div>
+            <button type="button" (click)="onToggleStatus()" class="px-4 py-2 text-sm font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white transition-all transform hover:scale-105 active:scale-100"
+              [class.bg-yellow-500]="status() === 'active'" 
+              [class.hover:bg-yellow-600]="status() === 'active'"
+              [class.bg-green-500]="status() === 'inactive'"
+              [class.hover:bg-green-600]="status() === 'inactive'">
+              @if (status() === 'active') {
+                <span>Desativar</span>
+              } @else {
+                <span>Ativar</span>
+              }
+            </button>
+          </div>
+        </fieldset>
+
+      </div>
+
+      <div class="p-6 bg-slate-50 rounded-b-2xl flex justify-between items-center">
+        <button type="button" (click)="onDelete()" class="px-4 py-2 text-sm font-medium text-red-600 bg-transparent rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all transform hover:scale-105 active:scale-100">
+          Excluir Aluno
+        </button>
+        <div class="flex gap-3">
+          <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:-translate-y-0.5 active:scale-95">Cancelar</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:-translate-y-0.5 active:scale-95">Salvar Alterações</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

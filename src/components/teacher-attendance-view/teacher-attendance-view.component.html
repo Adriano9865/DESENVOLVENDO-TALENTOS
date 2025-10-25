@@ -1,0 +1,91 @@
+<div class="animate-fade-in-down">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
+    <h1 class="text-3xl font-bold text-slate-800">Controle de Presenças</h1>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label for="student-filter" class="block text-sm font-medium text-slate-700">Filtrar por Aluno</label>
+        <select id="student-filter" (change)="onStudentFilterChange($event)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-slate-100 border border-slate-300 text-slate-900 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+          <option value="all">Todos os Alunos</option>
+          @for (student of students(); track student.id) {
+            <option [value]="student.id">{{ student.fullName }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label for="start-date-filter" class="block text-sm font-medium text-slate-700">Período - Início</label>
+        <input id="start-date-filter" type="date" [value]="startDate()" (change)="onDateChange('start', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+      </div>
+      <div>
+        <label for="end-date-filter" class="block text-sm font-medium text-slate-700">Período - Fim</label>
+        <input id="end-date-filter" type="date" [value]="endDate()" (change)="onDateChange('end', $event)" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm">
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-indigo-100 p-6 rounded-lg text-indigo-900">
+      <p class="text-sm font-medium text-indigo-700">Taxa de Presença</p>
+      <p class="text-4xl font-bold mt-1">{{ summary().percentage }}%</p>
+    </div>
+    <div class="bg-green-100 p-6 rounded-lg text-green-900">
+      <p class="text-sm font-medium text-green-700">Total de Presenças</p>
+      <p class="text-4xl font-bold mt-1">{{ summary().present }}</p>
+    </div>
+    <div class="bg-red-100 p-6 rounded-lg text-red-900">
+      <p class="text-sm font-medium text-red-700">Total de Ausências</p>
+      <p class="text-4xl font-bold mt-1">{{ summary().absent }}</p>
+    </div>
+  </div>
+
+  <!-- Results Table -->
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    @if (filteredRecords().length > 0) {
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-slate-500">
+          <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">Aluno</th>
+              <th scope="col" class="px-6 py-3">Data</th>
+              <th scope="col" class="px-6 py-3">Status</th>
+              <th scope="col" class="px-6 py-3">Justificativa</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (record of filteredRecords(); track record.id) {
+              <tr class="bg-white border-b hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">{{ record.studentName }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ record.date.split('-').reverse().join('/') }}</td>
+                <td class="px-6 py-4">
+                  @if (record.status === 'present') {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Presente
+                    </span>
+                  } @else {
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Ausente
+                    </span>
+                  }
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600 max-w-sm truncate" [title]="record.justification || ''">
+                    {{ record.justification || '-' }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="text-center py-16 px-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <h3 class="mt-2 text-xl font-semibold text-slate-900">Nenhum registro encontrado</h3>
+        <p class="mt-1 text-sm text-slate-500">Não há registros de presença para os filtros selecionados.</p>
+      </div>
+    }
+  </div>
+</div>

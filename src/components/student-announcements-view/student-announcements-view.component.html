@@ -1,0 +1,73 @@
+<div class="animate-fade-in-down">
+  <h1 class="text-3xl font-bold text-slate-800 mb-6">Mural de Avisos</h1>
+
+  @if (announcements().length > 0) {
+    <div class="space-y-4">
+      @for (item of announcements(); track item.id) {
+        <div class="bg-white p-5 rounded-lg shadow-md flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition-opacity" [class.opacity-70]="item.isRead">
+          <div class="flex-grow">
+            <div class="flex items-center gap-3">
+               @if (!item.isRead) {
+                <span class="flex h-3 w-3 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                </span>
+               }
+              <h2 class="text-xl font-bold text-slate-800">{{ item.title }}</h2>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-slate-500 mt-1 pl-6 sm:pl-0">
+                @if (item.courseName) {
+                    <span class="font-semibold" [class.text-purple-600]="item.courseId !== 'all'" [class.text-blue-600]="item.courseId === 'all'">
+                        {{ item.courseName }}
+                    </span>
+                     <span>•</span>
+                }
+                <span>{{ formatDate(item.createdAt) }}</span>
+            </div>
+          </div>
+
+          <button (click)="openAnnouncement(item)" class="w-full sm:w-auto bg-indigo-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v1H4V5zm0 2h12v1H4V7zm0 2h12v1H4V9zm0 2h12v1H4v-1z" clip-rule="evenodd" /></svg>
+            <span>Abrir Aviso</span>
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-16 px-6 bg-white rounded-lg shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.236 9.168-5.514C18.358 1.84 18.668 1.5 19 1.5v12.553a4.002 4.002 0 01-3.183 3.941c-1.39.376-2.824.57-4.317.475-2.592-.16-5.023-1.09-6.816-2.504z" />
+      </svg>
+      <h3 class="mt-2 text-xl font-semibold text-slate-900">Nenhum aviso por enquanto</h3>
+      <p class="mt-1 text-sm text-slate-500">Os avisos do professor aparecerão aqui.</p>
+    </div>
+  }
+</div>
+
+<!-- View Announcement Modal -->
+@if (announcementToView(); as announcement) {
+  <div class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-auto transform transition-all animate-scale-in flex flex-col max-h-[90vh]" (click)="$event.stopPropagation()">
+      <div class="p-6 border-b border-slate-200 shrink-0">
+        <h2 class="text-2xl font-bold text-slate-800">{{ announcement.title }}</h2>
+        <div class="flex items-center gap-2 text-sm text-slate-500 mt-1">
+            @if (announcement.courseName) {
+                <span class="font-semibold" [class.text-purple-600]="announcement.courseId !== 'all'" [class.text-blue-600]="announcement.courseId === 'all'">
+                    {{ announcement.courseName }}
+                </span>
+                <span>•</span>
+            }
+            <span>{{ formatDate(announcement.createdAt) }}</span>
+        </div>
+      </div>
+      <div class="p-6 flex-grow overflow-y-auto">
+        <p class="text-slate-700 whitespace-pre-wrap leading-relaxed">{{ announcement.content }}</p>
+      </div>
+      <div class="p-4 bg-slate-50 rounded-b-2xl flex justify-end shrink-0">
+        <button type="button" (click)="closeModal()" class="px-5 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+}

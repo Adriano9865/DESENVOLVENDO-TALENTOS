@@ -1,0 +1,60 @@
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg animate-fade-in-down">
+  <h1 class="text-3xl font-bold text-slate-800 mb-2">Meu Perfil</h1>
+  <p class="text-slate-500 mb-8">Gerencie suas informações pessoais e de acesso.</p>
+
+  <form (submit)="$event.preventDefault(); onSave()">
+    <div class="space-y-8">
+      
+      <!-- Informações Pessoais -->
+      <fieldset class="space-y-4">
+        <legend class="text-xl font-semibold text-slate-700 border-b border-slate-200 pb-3 mb-4 w-full">Informações Pessoais</legend>
+        <div>
+          <label for="profile-name" class="block text-sm font-medium text-slate-700">Nome Completo</label>
+          <input id="profile-name" type="text" [value]="fullName()" (input)="updateField('fullName', $event)" required class="mt-1 block w-full px-4 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+        <div>
+          <label for="profile-whatsapp" class="block text-sm font-medium text-slate-700">WhatsApp</label>
+          <input id="profile-whatsapp" type="tel" [value]="whatsapp()" (input)="updateField('whatsapp', $event)" required class="mt-1 block w-full px-4 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+      </fieldset>
+
+      <!-- Credenciais de Acesso -->
+      <fieldset class="space-y-4">
+        <legend class="text-xl font-semibold text-slate-700 border-b border-slate-200 pb-3 mb-4 w-full">Alterar Senha</legend>
+        <div>
+          <label for="profile-login" class="block text-sm font-medium text-slate-700">Login (4 dígitos)</label>
+          <input id="profile-login" type="text" [value]="student().login" disabled class="mt-1 block w-full px-4 py-2 bg-slate-200 text-slate-500 border border-slate-300 rounded-lg shadow-sm cursor-not-allowed">
+          <p class="text-xs text-slate-500 mt-1">O login não pode ser alterado.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="profile-new-password" class="block text-sm font-medium text-slate-700">Nova Senha (4 dígitos)</label>
+            <input id="profile-new-password" type="password" [value]="newPassword()" (input)="updateField('newPassword', $event)" pattern="\\d{4}" maxlength="4" placeholder="••••" class="mt-1 block w-full px-4 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" inputmode="numeric">
+          </div>
+          <div>
+            <label for="profile-confirm-password" class="block text-sm font-medium text-slate-700">Confirmar Nova Senha</label>
+            <input id="profile-confirm-password" type="password" [value]="confirmPassword()" (input)="updateField('confirmPassword', $event)" pattern="\\d{4}" maxlength="4" placeholder="••••" class="mt-1 block w-full px-4 py-2 bg-slate-100 border border-slate-300 text-slate-900 rounded-lg shadow-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" inputmode="numeric">
+          </div>
+        </div>
+        @if (passwordError()) {
+          <p class="text-sm text-red-600">{{ passwordError() }}</p>
+        }
+      </fieldset>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-8 pt-6 border-t border-slate-200 flex justify-end items-center gap-4">
+       @if (saveSuccess()) {
+        <div class="flex items-center gap-2 text-green-600 animate-bounce-in">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span class="text-sm font-medium">Perfil atualizado com sucesso!</span>
+        </div>
+      }
+      <button type="submit" class="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:-translate-y-0.5 active:scale-95">
+        Salvar Alterações
+      </button>
+    </div>
+  </form>
+</div>

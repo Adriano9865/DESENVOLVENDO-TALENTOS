@@ -1,0 +1,59 @@
+@if (courseAttempts().length > 0) {
+  <div class="space-y-6">
+    <!-- Average Grade Highlight -->
+    <div>
+      <h3 class="text-lg font-medium text-slate-800">Sua Média no Curso</h3>
+      <div class="mt-2 p-6 bg-indigo-50 rounded-lg text-center">
+        @if (averageGrade() !== null) {
+          <span class="text-5xl font-bold text-indigo-600">{{ averageGrade() }}%</span>
+        } @else {
+           <span class="text-2xl font-medium text-slate-500">-</span>
+        }
+      </div>
+    </div>
+
+    <!-- Detailed Grades Table -->
+    <div>
+      <h3 class="text-lg font-medium text-slate-800">Detalhes das Avaliações</h3>
+      <div class="mt-2 bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm text-left text-slate-500">
+          <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">Avaliação</th>
+              <th scope="col" class="px-6 py-3 text-center">Nota</th>
+              <th scope="col" class="px-6 py-3">Data de Envio</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attempt of courseAttempts(); track attempt.quizId) {
+              <tr class="bg-white border-b hover:bg-slate-50 last:border-b-0">
+                <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">
+                  {{ attempt.quizTitle }}
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <span 
+                    class="font-bold text-base"
+                    [class.text-green-600]="attempt.score >= 85"
+                    [class.text-yellow-600]="attempt.score >= 70 && attempt.score < 85"
+                    [class.text-red-600]="attempt.score < 70"
+                  >{{ attempt.score }}%</span>
+                </td>
+                <td class="px-6 py-4">
+                  {{ attempt.submittedAt.toLocaleDateString('pt-BR') }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="text-center py-10 px-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.781a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+    </svg>
+    <h3 class="mt-2 text-lg font-semibold text-slate-700">Nenhuma nota registrada</h3>
+    <p class="mt-1 text-sm text-slate-500">Suas notas aparecerão aqui assim que você concluir as avaliações do curso.</p>
+  </div>
+}

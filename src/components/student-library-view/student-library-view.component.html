@@ -1,0 +1,39 @@
+<div class="animate-fade-in-down">
+  <h1 class="text-3xl font-bold text-slate-800 mb-6">Minha Biblioteca de Cursos</h1>
+
+  @if (studentMaterials().length > 0) {
+    <div class="space-y-8">
+      @for (material of studentMaterials(); track material.id) {
+        <a [href]="material.url" target="_blank" class="block bg-white p-5 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div class="flex items-center gap-5">
+            <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-full"
+              [class.bg-red-100]="material.type === 'PDF'"
+              [class.bg-blue-100]="material.type === 'Vídeo'"
+              [class.bg-green-100]="material.type === 'Link'">
+              @if (material.type === 'PDF') {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              } @else if (material.type === 'Vídeo') {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+              }
+            </div>
+            <div class="flex-grow">
+              <p class="text-lg font-semibold text-slate-800">{{ material.title }}</p>
+              <p class="text-sm text-slate-500">{{ material.courseTitle }} - <span class="font-medium">{{ material.type }}</span></p>
+            </div>
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </div>
+        </a>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-16 px-6 bg-white rounded-lg shadow-md">
+       <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+       </svg>
+      <h3 class="mt-2 text-xl font-semibold text-slate-900">Sua biblioteca está vazia</h3>
+      <p class="mt-1 text-sm text-slate-500">Inscreva-se em cursos para ver os materiais de estudo aqui.</p>
+    </div>
+  }
+</div>

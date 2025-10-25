@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Plataforma Desenvolvendo Talentos</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar for a more refined look */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    /* Animation Keyframes */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+     @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    @keyframes strong-pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    /* Animation Utility Classes */
+    .animate-fade-in-down {
+      animation: fadeInDown 0.4s ease-out;
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.4s ease-out;
+    }
+    .animate-scale-in {
+      animation: scaleIn 0.3s ease-out;
+    }
+    .animate-bounce-in {
+      animation: bounceIn 0.5s ease-out;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    .animate-strong-pulse {
+      animation: strong-pulse 2s infinite;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://aistudiocdn.com/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://aistudiocdn.com/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://aistudiocdn.com/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://aistudiocdn.com/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://aistudiocdn.com/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://aistudiocdn.com/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@angular/platform-browser": "https://next.esm.sh/@angular/platform-browser@^20.3.7?external=rxjs",
+    "@angular/core": "https://next.esm.sh/@angular/core@^20.3.7?external=rxjs",
+    "@angular/compiler": "https://next.esm.sh/@angular/compiler@^20.3.7?external=rxjs",
+    "@angular/common": "https://next.esm.sh/@angular/common@^20.3.7?external=rxjs",
+    "@angular/common/http": "https://next.esm.sh/@angular/common@^20.3.7/http?external=rxjs",
+    "process": "https://next.esm.sh/process@^0.11.10?external=rxjs"
+  }
+}
+</script>
+</head>
+<body class="bg-slate-50 antialiased">
+  <app-root></app-root>
+</body>
+</html>

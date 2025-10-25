@@ -1,0 +1,50 @@
+<div class="animate-fade-in-down">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-slate-800">Mural de Avisos</h1>
+    <button (click)="onAddAnnouncement()" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:-translate-y-0.5 active:scale-95">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 3a1 1 0 011 1v1.333a1 1 0 01-2 0V4a1 1 0 011-1zm6.002 4.002a1 1 0 11-2 0 1 1 0 012 0zm-12 0a1 1 0 11-2 0 1 1 0 012 0zM10 6a4 4 0 00-4 4v.333a1 1 0 01-2 0V10a6 6 0 1112 0v.333a1 1 0 01-2 0V10a4 4 0 00-4-4z" />
+        <path fill-rule="evenodd" d="M8 11a2 2 0 100 4 2 2 0 000-4zm4-2a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd" />
+        <path d="M10 18a1 1 0 01-1-1v-1.333a1 1 0 112 0V17a1 1 0 01-1 1z" />
+      </svg>
+      <span>Criar Novo Aviso</span>
+    </button>
+  </div>
+
+  @if (announcements().length > 0) {
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-slate-500">
+          <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">Título</th>
+              <th scope="col" class="px-6 py-3">Público</th>
+              <th scope="col" class="px-6 py-3">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of announcements(); track item.id) {
+              <tr class="bg-white border-b hover:bg-slate-50 cursor-pointer" (click)="onEditAnnouncement(item)">
+                <td class="px-6 py-4 font-medium text-slate-900">{{ item.title }}</td>
+                <td class="px-6 py-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" [class.bg-blue-100]="item.courseId === 'all'" [class.text-blue-800]="item.courseId === 'all'" [class.bg-purple-100]="item.courseId !== 'all'" [class.text-purple-800]="item.courseId !== 'all'">
+                    {{ item.courseName }}
+                  </span>
+                </td>
+                <td class="px-6 py-4">{{ formatDate(item.createdAt) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="text-center py-16 px-6 bg-white rounded-lg shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.236 9.168-5.514C18.358 1.84 18.668 1.5 19 1.5v12.553a4.002 4.002 0 01-3.183 3.941c-1.39.376-2.824.57-4.317.475-2.592-.16-5.023-1.09-6.816-2.504z" />
+      </svg>
+      <h3 class="mt-2 text-xl font-semibold text-slate-900">Nenhum aviso publicado</h3>
+      <p class="mt-1 text-sm text-slate-500">Crie o primeiro aviso para se comunicar com seus alunos.</p>
+    </div>
+  }
+</div>

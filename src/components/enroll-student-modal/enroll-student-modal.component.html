@@ -1,0 +1,44 @@
+<div class="fixed inset-0 bg-black bg-opacity-60 z-40 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform transition-all animate-scale-in" (click)="$event.stopPropagation()">
+    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+      <h2 class="text-2xl font-bold text-slate-800">Matricular Aluno</h2>
+      <button (click)="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+
+    <div class="p-6">
+      <p class="mb-4 text-slate-600">
+        Selecione os cursos nos quais deseja matricular <strong>{{ student().fullName }}</strong>.
+      </p>
+
+      <div class="space-y-3 max-h-60 overflow-y-auto border border-slate-200 rounded-lg p-3">
+        @if (courses().length > 0) {
+          @for (course of courses(); track course.id) {
+            <label class="flex items-center p-3 rounded-md hover:bg-slate-50 cursor-pointer transition-colors">
+              <input 
+                type="checkbox" 
+                class="h-5 w-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                [checked]="selectedCourseIds().has(course.id)"
+                (change)="toggleCourseSelection(course.id)">
+              <span class="ml-3 font-medium text-slate-700">{{ course.title }}</span>
+            </label>
+          }
+        } @else {
+          <p class="text-center text-slate-500 p-4">Não há cursos ativos disponíveis para matrícula.</p>
+        }
+      </div>
+    </div>
+
+    <div class="p-6 bg-slate-50 rounded-b-2xl flex justify-end gap-3">
+      <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Pular</button>
+      <button 
+        type="button" 
+        (click)="onEnroll()"
+        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:bg-indigo-400"
+        [disabled]="selectedCourseIds().size === 0">
+        Matricular e Concluir
+      </button>
+    </div>
+  </div>
+</div>
